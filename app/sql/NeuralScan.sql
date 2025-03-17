@@ -110,4 +110,6 @@ INSERT INTO `instituciones` (nombre, correo, contraseña, fecha_registro)
 VALUES ('IMSS', 'imss_mante@imss.com', 'password123', NOW());
 
 INSERT INTO `medicos` (cedula, id_institucion, correo, contraseña, nombres, apellidos, edad, especialidad)
-VALUES ('ISC12', 2, 'rodrigo12@imss.com', 'roy', 'Rodirgo', 'Pérez', 40, 'neurólogo');
+VALUES ('ISC12', 2, 'rodrigo12@imss.com', 'roy', 'Rodrigo', 'Pérez', 40, 'neurólogo');
+
+ALTER TABLE pacientes DROP COLUMN user_id;
