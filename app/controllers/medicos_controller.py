@@ -1,11 +1,21 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.repositories.medicos_repository import MedicoRepository
-from app.schemas.medicos import MedicoCreate, MedicoUpdate
+from app.schemas.medicos import MedicoCreate, MedicoUpdate, MedicoLogin
 from app.sql.database import get_db
 from app.utils.api_response import APIResponse
 
 router = APIRouter()
+
+@router.post("/login-medicos")
+def login(login_data: MedicoLogin, db: Session = Depends(get_db)):
+    repo = MedicoRepository(db)  
+    medico = repo.get_by_email(login_data.correo)
+    
+    if not medico or medico.contraseña != login_data.contraseña:
+        return APIResponse.error("Credenciales incorrectas", 401)
+
+    return APIResponse.success({"id": medico.cedula}, "Login exitoso", 200)
 
 @router.post("/medicos/")
 def create_medico(medico: MedicoCreate, db: Session = Depends(get_db)):

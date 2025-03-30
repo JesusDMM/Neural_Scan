@@ -5,6 +5,9 @@ from app.models.instituciones import Institucion
 class MedicoRepository:
     def __init__(self, db: Session):
         self.db = db
+        
+    def get_by_email(self, email: str):
+        return self.db.query(Medico).filter(Medico.correo == email).first()
 
     def create_medico(self, cedula: str, id_institucion: int, correo: str, contraseña: str, nombres: str, apellidos: str, edad: int, especialidad: str):
         institucion = self.db.query(Institucion).filter(Institucion.id == id_institucion).first()

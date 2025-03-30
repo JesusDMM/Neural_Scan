@@ -110,6 +110,19 @@ INSERT INTO `instituciones` (nombre, correo, contraseña, fecha_registro)
 VALUES ('IMSS', 'imss_mante@imss.com', 'password123', NOW());
 
 INSERT INTO `medicos` (cedula, id_institucion, correo, contraseña, nombres, apellidos, edad, especialidad)
-VALUES ('ISC12', 2, 'rodrigo12@imss.com', 'roy', 'Rodrigo', 'Pérez', 40, 'neurólogo');
+VALUES ('ISC12', 1, 'rodrigo12@imss.com', 'roy', 'Rodrigo', 'Pérez', 40, 'neurólogo');
 
 ALTER TABLE pacientes DROP COLUMN user_id;
+
+-- Si elimino un paciente se borra tambien sus registros
+ALTER TABLE `paciente_medico`
+DROP FOREIGN KEY `paciente_medico_ibfk_1`,
+ADD CONSTRAINT `fk_paciente_medico_paciente`
+FOREIGN KEY (`curp`) REFERENCES `pacientes` (`curp`)
+ON DELETE CASCADE;
+
+ALTER TABLE historial_detecciones 
+ADD COLUMN url_imagen_original varchar(255) UNIQUE NOT NULL;
+
+ALTER TABLE historial_detecciones 
+ADD COLUMN fecha TIMESTAMP NOT NULL;
